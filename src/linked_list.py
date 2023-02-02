@@ -30,37 +30,35 @@ class LinkedList:
         new_node = Node(value)
         self.head = new_node
         self.tail = new_node
-        self.length = 1
+        self._length = 1
+
+    def __len__(self):
+        return self._length
 
     def __repr__(self):
-        list_ = "["
-        start_node = self.head
-        list_ += str(start_node.value)
-        while (start_node.next):
-            list_ += f", {str(start_node.next.value)}"
-            start_node = start_node.next
-        list_ += "]"
-        return list_
-
-    def empty_list(self):
-        self.head = None
-        self.next = None
-        self.length = 0
+        str_ll = "["
+        nn = self.head
+        str_ll += str(nn.value)
+        while (nn.next):
+            str_ll += f", {str(nn.next.value)}"
+            nn = nn.next
+        str_ll += "]"
+        return str_ll
 
     def append(self, value):
         new_node = Node(value)
-        if self.length == 0:
+        if self._length == 0:
             self.head = new_node
             self.tail = new_node
         else:
             self.tail.next = new_node
             self.tail = new_node
-        self.length += 1
+        self._length += 1
         return True
 
     def pop(self):
         last_node = self.tail
-        if self.length == 0:
+        if self._length == 0:
             return None
         pre = self.head
         post = self.head
@@ -69,11 +67,22 @@ class LinkedList:
             post = post.next
         self.tail = pre
         self.tail.next = None
-        self.length -= 1
-        if self.length == 0:
+        self._length -= 1
+        if self._length == 0:
             self.head = None
             self.tail = None
         return last_node.value
+
+    def prepend(self, value):
+        new_node = Node(value)
+        if self._length == 0:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.next = self.head
+            self.head = new_node
+        self._length += 1
+        return True
 
 
 if __name__ == "__main__":
@@ -85,3 +94,4 @@ if __name__ == "__main__":
     a = ll.pop()
     print(ll)
     print(a)
+    print(len(ll))

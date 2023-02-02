@@ -6,3 +6,4 @@ prepare for the coding interview. [Link to the course](https://www.udemy.com/cou
 **Useful links:**
 
 - [Big O Cheatsheet](https://www.bigocheatsheet.com)
+- [Readme Basic Syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
