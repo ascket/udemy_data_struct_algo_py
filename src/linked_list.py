@@ -1,24 +1,3 @@
-# Linked List можно представить как такую структуру:
-head = {
-    "value": 10,
-    "next": {
-        "value": 20,
-        "next": {
-            "value": 30,
-            "next": {
-                "value": 40,
-                "next": None
-            }
-        }
-    }
-}
-
-
-# print(head["next"]["next"]["value"])
-
-
-########################
-
 class Node:
     def __init__(self, value):
         self.value = value
@@ -36,8 +15,10 @@ class LinkedList:
         return self._length
 
     def __repr__(self):
-        str_ll = "["
+        if self._length == 0:
+            return "[]"
         nn = self.head
+        str_ll = "["
         str_ll += str(nn.value)
         while (nn.next):
             str_ll += f", {str(nn.next.value)}"
@@ -57,7 +38,6 @@ class LinkedList:
         return True
 
     def pop(self):
-        last_node = self.tail
         if self._length == 0:
             return None
         pre = self.head
@@ -71,7 +51,7 @@ class LinkedList:
         if self._length == 0:
             self.head = None
             self.tail = None
-        return last_node.value
+        return post
 
     def prepend(self, value):
         new_node = Node(value)
@@ -84,14 +64,68 @@ class LinkedList:
         self._length += 1
         return True
 
+    def pop_first(self):
+        if self._length == 0:
+            return None
+        pre = self.head
+        self.head = self.head.next
+        pre.next = None
+        self._length -= 1
+        if self._length == 0:
+            self.tail = None
+        return pre
 
-if __name__ == "__main__":
-    ll = LinkedList(5)
-    ll.append(35)
-    ll.append(135)
-    ll.append(235)
-    ll.append(335)
-    a = ll.pop()
-    print(ll)
-    print(a)
-    print(len(ll))
+    def __getitem__(self, index):
+        if index < 0 or index >= self._length:
+            return None
+        pre = self.head
+        for _ in range(index):
+            pre = pre.next
+        return pre
+
+    def __setitem__(self, index, value):
+        node = self[index]
+        if node:
+            node.value = value
+            return True
+        return False
+
+    def insert_value(self, index, value):
+        if index == 0:
+            return self.prepend(value)
+        if index == self._length:
+            return self.append(value)
+        if index < 0 or index > self._length:
+            return False
+        pre = self[index - 1]
+        node = Node(value)
+        node.next = pre.next
+        pre.next = node
+        self._length += 1
+        return True
+
+    def remove(self, index):
+        if index < 0 or index > self._length:
+            return None
+        if index == 0:
+            return self.pop_first()
+        if index == self._length:
+            return self.pop()
+        pre = self[index - 1]
+        post = pre.next
+        pre.next = post.next
+        post.next = None
+        self._length -= 1
+        return post
+
+    def reverse(self):
+        temp = self.head
+        self.head = self.tail
+        self.tail = temp
+        after = temp.next
+        before = None
+        for _ in range(self._length):
+            after = temp.next
+            temp.next = before
+            before = temp
+            temp = after
