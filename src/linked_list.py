@@ -5,11 +5,16 @@ class Node:
 
 
 class LinkedList:
-    def __init__(self, value):
-        new_node = Node(value)
-        self.head = new_node
-        self.tail = new_node
-        self._length = 1
+    def __init__(self, value=None):
+        self._length = 0
+        if not value:
+            self.head = None
+            self.tail = None
+        else:
+            new_node = Node(value)
+            self.head = new_node
+            self.tail = new_node
+            self._length += 1
 
     def __len__(self):
         return self._length
@@ -105,11 +110,11 @@ class LinkedList:
         return True
 
     def remove(self, index):
-        if index < 0 or index > self._length:
+        if index < 0 or index >= self._length:
             return None
         if index == 0:
             return self.pop_first()
-        if index == self._length:
+        if index == self._length - 1:
             return self.pop()
         pre = self[index - 1]
         post = pre.next
@@ -129,3 +134,23 @@ class LinkedList:
             temp.next = before
             before = temp
             temp = after
+
+    def reverse_head_tail(self):
+        """Reverse only head and tail"""
+        pre = self.head
+        pre_post = self.get_item(self._length - 2)
+        self.head = self.tail
+        self.head.next = pre.next
+        self.tail = pre
+        self.tail.next = None
+        pre_post.next = self.tail
+
+
+if __name__ == "__main__":
+    ll = LinkedList(5)
+    ll.append(20)
+    ll.append(30)
+    print(ll)
+    a = ll.remove(2)
+    print(a.value)
+    print(ll)
