@@ -137,22 +137,13 @@ class DoubleLinkedList:
         pre = self.head
         self.head = self.tail
         self.tail = pre
-        pre_prev = pre.prev
+        # pre_prev = pre.prev
         pre_after = pre.next
         before = None
         for _ in range(self._length):
-            pre_prev = pre.prev
+            #pre_prev = pre.prev
             pre_after = pre.next
             pre.next = before
             pre.prev = pre_after
             before = pre
             pre = pre_after
-
-
-if __name__ == "__main__":
-    ld = DoubleLinkedList(5)
-    ld.append(10)
-    ld.prepend(0)
-    a = ld.get_item(0)
-    print(ld)
-    print(a.value)
